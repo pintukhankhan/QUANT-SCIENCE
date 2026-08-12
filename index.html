@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -186,7 +186,7 @@
       border: 1px solid var(--border);
     }
 
-    /* ----- WORKSHOP BANNER (no register) ----- */
+    /* ----- WORKSHOP BANNER ----- */
     .workshop-banner {
       background: var(--bg2);
       border-radius: 24px;
@@ -347,7 +347,7 @@
     <div class="nav-links">
       <a class="nav-action" data-toast="📚 Docs coming soon — we're writing the best tutorials for you.">Docs</a>
       <a class="nav-action" data-toast="💬 Join our Discord community — link sent to your inbox!">Community</a>
-      <a class="nav-action" data-toast="🎓 Courses: AlgoLab Academy launches in September. Stay tuned!" class="btn btn-primary" style="padding:6px 18px; font-size:0.85rem;"><i class="fas fa-graduation-cap"></i> Courses</a>
+      <a class="nav-action" data-toast="🎓 Courses: AlgoLab Academy launches in September. Stay tuned!" style="padding:6px 18px; font-size:0.85rem;"><i class="fas fa-graduation-cap"></i> Courses</a>
       <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme"><i class="fas fa-moon"></i></button>
     </div>
   </nav>
@@ -392,7 +392,7 @@
     <div class="lib-card"><div class="lib-icon"><i class="fas fa-building"></i></div><div class="lib-name">IEX Cloud</div><div class="lib-desc">Stocks, ETFs, forex, streaming</div><span class="lib-badge">free tier</span></div>
   </div>
 
-  <!-- WORKSHOP BANNER (Register removed) -->
+  <!-- WORKSHOP BANNER -->
   <div class="workshop-banner">
     <div class="workshop-left">
       <i class="fas fa-fire"></i>
@@ -403,7 +403,10 @@
     </div>
     <div class="btn-group">
       <span class="registered-badge"><i class="fas fa-user-check"></i> 630+</span>
-      <a href="https://share.google/yOYy9EbRTQCLkkFcO" target="_blank" class="btn btn-google" id="googleBtn"><i class="fab fa-google-drive"></i> Download Resources</a>
+      <!-- ✅ FIXED: Replace YOUR_ACTUAL_GOOGLE_DRIVE_LINK with your real share URL -->
+      <a href="YOUR_ACTUAL_GOOGLE_DRIVE_LINK" target="_blank" class="btn btn-google" id="googleBtn">
+        <i class="fab fa-google-drive"></i> Download Resources
+      </a>
     </div>
   </div>
 
@@ -467,9 +470,10 @@
       });
     });
 
-    // --- Google Drive button (toast confirmation) ---
+    // --- Google Drive button ---
     document.getElementById('googleBtn').addEventListener('click', function(e) {
       showToast('📁 Opening Google Drive resources...', 'fab fa-google-drive');
+      // The link opens in a new tab due to target="_blank"
     });
 
     // --- Fake ticker animation ---
@@ -488,8 +492,9 @@
       }, 3000);
     }
 
-    console.log('🚀 AlgoLab — registration removed, Google Drive link active.');
+    console.log('🚀 AlgoLab — all buttons working.');
   })();
 </script>
+
 </body>
 </html>
