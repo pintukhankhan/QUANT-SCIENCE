@@ -186,7 +186,7 @@
       border: 1px solid var(--border);
     }
 
-    /* ----- WORKSHOP BANNER ----- */
+    /* ----- WORKSHOP BANNER (no register) ----- */
     .workshop-banner {
       background: var(--bg2);
       border-radius: 24px;
@@ -239,11 +239,6 @@
       transition: transform 0.3s;
     }
     .btn:active::after { transform: scale(1); }
-    .btn-primary {
-      background: var(--accent);
-      color: #0b0e14;
-    }
-    .btn-primary:hover { background: #7af0c0; transform: scale(1.02); box-shadow: 0 0 20px rgba(94,224,176,0.3); }
     .btn-google {
       background: var(--bg3);
       color: var(--text);
@@ -288,80 +283,6 @@
     .footer-social a { color: var(--text3); margin-left: 20px; font-size: 1.2rem; transition: color 0.2s; }
     .footer-social a:hover { color: var(--accent); }
 
-    /* ===== MODAL (Register) ===== */
-    .modal-overlay {
-      position: fixed;
-      inset: 0;
-      background: rgba(0,0,0,0.7);
-      backdrop-filter: blur(6px);
-      display: none;
-      align-items: center;
-      justify-content: center;
-      z-index: 1000;
-      padding: 20px;
-    }
-    .modal-overlay.active { display: flex; }
-    .modal {
-      background: var(--bg2);
-      border-radius: 28px;
-      max-width: 440px;
-      width: 100%;
-      padding: 40px 36px;
-      border: 1px solid var(--border);
-      box-shadow: 0 30px 60px rgba(0,0,0,0.8);
-      animation: slideUp 0.3s ease;
-    }
-    @keyframes slideUp {
-      from { opacity: 0; transform: translateY(30px) scale(0.95); }
-      to { opacity: 1; transform: translateY(0) scale(1); }
-    }
-    .modal h2 { font-size: 1.6rem; margin-bottom: 8px; }
-    .modal p { color: var(--text2); font-size: 0.95rem; margin-bottom: 24px; }
-    .modal .form-group { margin-bottom: 16px; }
-    .modal .form-group label { display: block; font-weight: 600; font-size: 0.85rem; margin-bottom: 4px; color: var(--text2); }
-    .modal .form-group input {
-      width: 100%;
-      padding: 12px 16px;
-      border-radius: 12px;
-      border: 1px solid var(--border);
-      background: var(--bg);
-      color: var(--text);
-      font-size: 1rem;
-      transition: border 0.2s;
-    }
-    .modal .form-group input:focus { outline: none; border-color: var(--accent); }
-    .modal .btn-submit {
-      width: 100%;
-      padding: 14px;
-      background: var(--accent);
-      color: #0b0e14;
-      font-weight: 700;
-      border: none;
-      border-radius: 60px;
-      font-size: 1rem;
-      cursor: pointer;
-      transition: 0.2s;
-      margin-top: 8px;
-    }
-    .modal .btn-submit:hover { background: #7af0c0; }
-    .modal .btn-close {
-      background: transparent;
-      border: none;
-      color: var(--text3);
-      font-size: 1.4rem;
-      cursor: pointer;
-      float: right;
-      transition: 0.2s;
-    }
-    .modal .btn-close:hover { color: var(--text); transform: rotate(90deg); }
-    .modal .success-msg {
-      display: none;
-      text-align: center;
-      padding: 20px 0;
-    }
-    .modal .success-msg i { font-size: 3rem; color: var(--accent); margin-bottom: 12px; }
-    .modal .success-msg h3 { color: var(--accent); }
-
     /* ===== TOAST ===== */
     .toast {
       position: fixed;
@@ -400,7 +321,6 @@
       .workshop-left { flex-direction: column; align-items: flex-start; }
       .btn-group { align-self: flex-start; }
       .ticker { font-size: 0.75rem; gap: 12px; padding: 6px 16px; }
-      .modal { padding: 28px 20px; }
     }
     @media (max-width: 480px) {
       body { padding: 0 12px; }
@@ -472,7 +392,7 @@
     <div class="lib-card"><div class="lib-icon"><i class="fas fa-building"></i></div><div class="lib-name">IEX Cloud</div><div class="lib-desc">Stocks, ETFs, forex, streaming</div><span class="lib-badge">free tier</span></div>
   </div>
 
-  <!-- WORKSHOP BANNER -->
+  <!-- WORKSHOP BANNER (Register removed) -->
   <div class="workshop-banner">
     <div class="workshop-left">
       <i class="fas fa-fire"></i>
@@ -483,7 +403,6 @@
     </div>
     <div class="btn-group">
       <span class="registered-badge"><i class="fas fa-user-check"></i> 630+</span>
-      <button class="btn btn-primary" id="registerBtn"><i class="fas fa-arrow-right"></i> Register</button>
       <a href="https://share.google/yOYy9EbRTQCLkkFcO" target="_blank" class="btn btn-google" id="googleBtn"><i class="fab fa-google-drive"></i> Download Resources</a>
     </div>
   </div>
@@ -504,33 +423,6 @@
       <a href="#"><i class="fab fa-linkedin-in"></i></a>
     </div>
   </footer>
-</div>
-
-<!-- ===== MODAL (Register) ===== -->
-<div class="modal-overlay" id="registerModal">
-  <div class="modal">
-    <button class="btn-close" id="modalClose">&times;</button>
-    <h2>🚀 Register for the Workshop</h2>
-    <p>August 13th · Free · Live on Zoom</p>
-
-    <div id="formContainer">
-      <div class="form-group">
-        <label>Full Name</label>
-        <input type="text" id="fullName" placeholder="e.g. Jane Doe" />
-      </div>
-      <div class="form-group">
-        <label>Email Address</label>
-        <input type="email" id="email" placeholder="jane@example.com" />
-      </div>
-      <button class="btn-submit" id="submitRegister">Secure my spot →</button>
-    </div>
-
-    <div class="success-msg" id="successMsg">
-      <i class="fas fa-check-circle"></i>
-      <h3>You're registered! 🎉</h3>
-      <p style="color: var(--text2);">We'll send the Zoom link to your email.</p>
-    </div>
-  </div>
 </div>
 
 <!-- ===== TOAST ===== -->
@@ -558,8 +450,8 @@
     const toastMsg = document.getElementById('toastMsg');
     let toastTimeout;
 
-    function showToast(message, icon = 'fas fa-info-circle') {
-      toast.querySelector('i').className = icon;
+    function showToast(message, iconClass = 'fas fa-info-circle') {
+      toast.querySelector('i').className = iconClass;
       toastMsg.textContent = message;
       toast.classList.add('show');
       clearTimeout(toastTimeout);
@@ -575,55 +467,9 @@
       });
     });
 
-    // --- Register Modal ---
-    const modal = document.getElementById('registerModal');
-    const registerBtn = document.getElementById('registerBtn');
-    const closeModal = document.getElementById('modalClose');
-    const formContainer = document.getElementById('formContainer');
-    const successMsg = document.getElementById('successMsg');
-    const submitBtn = document.getElementById('submitRegister');
-
-    function openModal() {
-      modal.classList.add('active');
-      formContainer.style.display = 'block';
-      successMsg.style.display = 'none';
-      document.getElementById('fullName').value = '';
-      document.getElementById('email').value = '';
-    }
-
-    registerBtn.addEventListener('click', openModal);
-    closeModal.addEventListener('click', () => modal.classList.remove('active'));
-    modal.addEventListener('click', function(e) {
-      if (e.target === this) modal.classList.remove('active');
-    });
-
-    submitBtn.addEventListener('click', function() {
-      const name = document.getElementById('fullName').value.trim();
-      const email = document.getElementById('email').value.trim();
-      if (!name || !email) {
-        showToast('⚠️ Please fill in both fields.', 'fas fa-exclamation-triangle');
-        return;
-      }
-      if (!email.includes('@')) {
-        showToast('⚠️ Please enter a valid email address.', 'fas fa-exclamation-triangle');
-        return;
-      }
-      // Success
-      formContainer.style.display = 'none';
-      successMsg.style.display = 'block';
-      showToast('🎉 You\'re registered for the workshop!', 'fas fa-check-circle');
-      // Auto-close modal after 3s
-      setTimeout(() => {
-        modal.classList.remove('active');
-        formContainer.style.display = 'block';
-        successMsg.style.display = 'none';
-      }, 3000);
-    });
-
     // --- Google Drive button (toast confirmation) ---
     document.getElementById('googleBtn').addEventListener('click', function(e) {
       showToast('📁 Opening Google Drive resources...', 'fab fa-google-drive');
-      // the link opens in new tab due to target="_blank"
     });
 
     // --- Fake ticker animation ---
@@ -642,7 +488,7 @@
       }, 3000);
     }
 
-    console.log('🚀 AlgoLab — all buttons are interactive!');
+    console.log('🚀 AlgoLab — registration removed, Google Drive link active.');
   })();
 </script>
 </body>
