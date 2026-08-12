@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AlgoLab · 12 Python Libraries</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    /* ----- RESET & VARIABLES ----- */
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    :root {
+      --bg: #0b0e14;
+      --bg2: #131a22;
+      --bg3: #1f2937;
+      --text: #eaf0f6;
+      --text2: #b0c4dd;
+      --text3: #6a7d99;
+      --border: #26303d;
+      --accent: #5ee0b0;
+      --accent2: #40d0a0;
+      --shadow: rgba(0,0,0,0.6);
+    }
+    [data-theme="light"] {
+      --bg: #f2f6fc;
+      --bg2: #ffffff;
+      --bg3: #e2e8f0;
+      --text: #0b1a2a;
+      --text2: #2a3a50;
+      --text3: #5a6a80;
+      --border: #cbd5e1;
+      --shadow: rgba(0,0,0,0.08);
+    }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      padding: 0 24px;
+      transition: background 0.3s, color 0.3s;
+    }
+    .container { max-width: 1200px; margin: 0 auto; padding: 16px 0 48px; }
+
+    /* ----- TICKER ----- */
+    .ticker {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: 40px;
+      padding: 8px 24px;
+      display: flex;
+      align-items: center;
+      gap: 24px;
+      overflow: hidden;
+      font-size: 0.85rem;
+      color: var(--text2);
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+    }
+    .ticker span { white-space: nowrap; }
+    .ticker .up { color: #5ee0b0; }
+    .ticker .down { color: #f87171; }
+
+    /* ----- NAVBAR ----- */
+    .navbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      padding-bottom: 20px;
+      border-bottom: 1px solid var(--border);
+    }
+    .logo {
+      font-size: 1.8rem;
+      font-weight: 800;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .logo span {
+      -webkit-text-fill-color: var(--text3);
+      font-size: 1rem;
+      font-weight: 400;
+    }
+    .nav-links {
+      display: flex;
+      gap: 24px;
+      font-weight: 500;
+      font-size: 0.95rem;
+      color: var(--text2);
+      align-items: center;
+    }
+    .nav-links a { color: inherit; text-decoration: none; transition: color 0.2s; }
+    .nav-links a:hover { color: var(--accent); }
+    .theme-toggle {
+      background: var(--bg3);
+      border: 1px solid var(--border);
+      border-radius: 40px;
+      padding: 6px 14px;
+      cursor: pointer;
+      color: var(--text2);
+      font-size: 1rem;
+      transition: 0.2s;
+    }
+    .theme-toggle:hover { color: var(--accent); border-color: var(--accent); }
+
+    /* ----- TWEET CARD ----- */
+    .tweet-card {
+      background: var(--bg2);
+      border-radius: 20px;
+      padding: 28px 30px;
+      margin: 24px 0 40px;
+      border: 1px solid var(--border);
+      box-shadow: 0 12px 40px var(--shadow);
+    }
+    .tweet-header {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 16px;
+    }
+    .tweet-avatar {
+      width: 44px; height: 44px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      display: flex; align-items: center; justify-content: center;
+      font-weight: 700; font-size: 1.2rem; color: #0b0e14;
+    }
+    .tweet-user { font-weight: 700; }
+    .tweet-handle { color: var(--text3); font-weight: 400; margin-left: 4px; }
+    .tweet-time { color: var(--text3); font-size: 0.85rem; margin-left: auto; }
+    .tweet-text { font-size: 1.15rem; line-height: 1.6; margin-bottom: 16px; }
+    .tweet-text strong { color: var(--accent); }
+    .tweet-link { color: #5e9eff; text-decoration: none; }
+    .tweet-link:hover { text-decoration: underline; }
+    .tweet-stats {
+      display: flex; gap: 24px; color: var(--text3); font-size: 0.9rem;
+      border-top: 1px solid var(--border); padding-top: 14px; margin-top: 12px;
+    }
+    .tweet-stats i { margin-right: 6px; }
+
+    /* ----- SECTION ----- */
+    .section-title { font-size: 2.2rem; font-weight: 700; margin: 40px 0 8px; }
+    .section-sub { color: var(--text2); font-size: 1.1rem; margin-bottom: 32px; }
+
+    /* ----- LIBRARY GRID ----- */
+    .lib-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+      gap: 24px;
+      margin-bottom: 48px;
+    }
+    .lib-card {
+      background: var(--bg2);
+      border-radius: 16px;
+      padding: 22px 20px;
+      border: 1px solid var(--border);
+      transition: all 0.25s ease;
+      cursor: default;
+      position: relative;
+      overflow: hidden;
+    }
+    .lib-card::after {
+      content: '';
+      position: absolute; top: 0; left: 0; right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--accent2), var(--accent));
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+    .lib-card:hover { transform: translateY(-6px); border-color: var(--accent); box-shadow: 0 12px 32px var(--shadow); }
+    .lib-card:hover::after { opacity: 1; }
+    .lib-icon { font-size: 1.8rem; margin-bottom: 8px; color: var(--accent); }
+    .lib-name { font-weight: 700; font-size: 1.15rem; }
+    .lib-desc { font-size: 0.9rem; color: var(--text2); line-height: 1.5; }
+    .lib-badge {
+      display: inline-block;
+      background: var(--bg3);
+      color: var(--text3);
+      font-size: 0.7rem;
+      padding: 2px 12px;
+      border-radius: 30px;
+      margin-top: 10px;
+      border: 1px solid var(--border);
+    }
+
+    /* ----- WORKSHOP BANNER ----- */
+    .workshop-banner {
+      background: var(--bg2);
+      border-radius: 24px;
+      padding: 28px 32px;
+      margin: 16px 0 32px;
+      border: 1px solid var(--border);
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      box-shadow: 0 8px 30px var(--shadow);
+    }
+    .workshop-left { display: flex; align-items: center; gap: 18px; }
+    .workshop-left i {
+      font-size: 2.2rem;
+      color: #f5b342;
+      background: var(--bg3);
+      padding: 12px;
+      border-radius: 60px;
+      border: 1px solid var(--border);
+    }
+    .workshop-text h3 { font-size: 1.3rem; font-weight: 700; }
+    .workshop-text p { color: var(--text2); font-size: 0.95rem; }
+    .workshop-text .highlight { color: var(--accent); font-weight: 600; }
+    .btn-group { display: flex; gap: 12px; flex-wrap: wrap; align-items: center; }
+    .btn {
+      padding: 12px 28px;
+      border-radius: 60px;
+      font-weight: 700;
+      text-decoration: none;
+      font-size: 0.95rem;
+      border: none;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      transition: all 0.2s;
+    }
+    .btn-primary {
+      background: var(--accent);
+      color: #0b0e14;
+    }
+    .btn-primary:hover { background: #7af0c0; transform: scale(1.02); box-shadow: 0 0 20px rgba(94,224,176,0.3); }
+    .btn-google {
+      background: var(--bg3);
+      color: var(--text);
+      border: 1px solid var(--border);
+    }
+    .btn-google:hover { border-color: var(--accent); color: var(--accent); }
+    .registered-badge {
+      background: var(--bg3);
+      padding: 6px 16px;
+      border-radius: 40px;
+      color: var(--text2);
+      font-size: 0.85rem;
+      border: 1px solid var(--border);
+    }
+
+    /* ----- PS ----- */
+    .ps-note {
+      background: var(--bg2);
+      border-left: 6px solid var(--accent);
+      padding: 20px 28px;
+      border-radius: 12px;
+      margin: 24px 0 16px;
+      color: var(--text2);
+      font-size: 1.05rem;
+      border: 1px solid var(--border);
+      border-left-width: 6px;
+    }
+    .ps-note strong { color: var(--text); }
+
+    /* ----- FOOTER ----- */
+    .footer {
+      border-top: 1px solid var(--border);
+      padding-top: 28px;
+      margin-top: 32px;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      color: var(--text3);
+      font-size: 0.9rem;
+    }
+    .footer-social a { color: var(--text3); margin-left: 20px; font-size: 1.2rem; transition: color 0.2s; }
+    .footer-social a:hover { color: var(--accent); }
+
+    /* ----- RESPONSIVE ----- */
+    @media (max-width: 768px) {
+      .navbar { flex-direction: column; align-items: start; gap: 12px; }
+      .nav-links { flex-wrap: wrap; gap: 14px; font-size: 0.85rem; }
+      .section-title { font-size: 1.6rem; }
+      .lib-grid { grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); }
+      .workshop-banner { flex-direction: column; align-items: stretch; padding: 20px; }
+      .workshop-left { flex-direction: column; align-items: flex-start; }
+      .btn-group { align-self: flex-start; }
+      .ticker { font-size: 0.75rem; gap: 12px; padding: 6px 16px; }
+    }
+    @media (max-width: 480px) {
+      body { padding: 0 12px; }
+      .lib-grid { grid-template-columns: 1fr 1fr; }
+    }
+    ::selection { background: var(--accent); color: #0b0e14; }
+  </style>
+</head>
+<body>
+<div class="container">
+
+  <!-- TICKER -->
+  <div class="ticker" id="ticker">
+    <span><i class="fas fa-chart-simple"></i> <span class="up">▲ 1.24%</span> SPY</span>
+    <span><span class="up">▲ 2.1%</span> QQQ</span>
+    <span><span class="down">▼ 0.8%</span> BTC/USD</span>
+    <span><span class="up">▲ 0.6%</span> EUR/USD</span>
+    <span style="color:var(--text3);">📊 <strong>12</strong> libraries · free data</span>
+  </div>
+
+  <!-- NAV -->
+  <nav class="navbar">
+    <div class="logo">ALGOLAB <span>| algo trading</span></div>
+    <div class="nav-links">
+      <a href="#">Docs</a>
+      <a href="#">Community</a>
+      <a href="#" class="btn btn-primary" style="padding:6px 18px; font-size:0.85rem;"><i class="fas fa-graduation-cap"></i> Courses</a>
+      <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme"><i class="fas fa-moon"></i></button>
+    </div>
+  </nav>
+
+  <!-- TWEET CARD -->
+  <div class="tweet-card">
+    <div class="tweet-header">
+      <div class="tweet-avatar">A</div>
+      <div><span class="tweet-user">AlgoLab</span><span class="tweet-handle">@AlgoLab</span></div>
+      <span class="tweet-time"><i class="far fa-clock"></i> 2h</span>
+    </div>
+    <div class="tweet-text">
+      <strong>12 Python libraries for free market data</strong> everyone should know:<br>
+      <a href="#" class="tweet-link">https://t.co/PUQ9UM9MI8</a>
+      <span style="display:inline-block; background:var(--bg3); padding:0 10px; border-radius:12px; margin-left:6px; font-size:0.8rem;">/ X</span>
+    </div>
+    <div class="tweet-stats">
+      <span><i class="far fa-comment"></i> 24</span>
+      <span><i class="fas fa-retweet"></i> 187</span>
+      <span><i class="far fa-heart"></i> 643</span>
+      <span><i class="far fa-chart-bar"></i> 1.2K</span>
+    </div>
+  </div>
+
+  <!-- TITLE -->
+  <h2 class="section-title">📦 The Essential 12 Libraries</h2>
+  <p class="section-sub">Free, reliable, and production‑ready data sources for quant strategies.</p>
+
+  <!-- LIBRARY GRID -->
+  <div class="lib-grid">
+    <div class="lib-card"><div class="lib-icon"><i class="fab fa-python"></i></div><div class="lib-name">yfinance</div><div class="lib-desc">Stocks, intraday, FX, crypto, options</div><span class="lib-badge">free</span></div>
+    <div class="lib-card"><div class="lib-icon"><i class="fas fa-database"></i></div><div class="lib-name">pandas-datareader</div><div class="lib-desc">Stocks, FX, Fama‑French factors</div><span class="lib-badge">free</span></div>
+    <div class="lib-card"><div class="lib-icon"><i class="fas fa-exchange-alt"></i></div><div class="lib-name">IBApi</div><div class="lib-desc">Official Interactive Brokers API</div><span class="lib-badge">free</span></div>
+    <div class="lib-card"><div class="lib-icon"><i class="fas fa-chart-line"></i></div><div class="lib-name">Alpha Vantage</div><div class="lib-desc">Real‑time + indicators, JSON/CSV</div><span class="lib-badge">free tier</span></div>
+    <div class="lib-card"><div class="lib-icon"><i class="fas fa-link"></i></div><div class="lib-name">Nasdaq Data Link</div><div class="lib-desc">Millions of financial datasets</div><span class="lib-badge">free tier</span></div>
+    <div class="lib-card"><div class="lib-icon"><i class="fas fa-wave-square"></i></div><div class="lib-name">Twelve Data</div><div class="lib-desc">100K+ symbols, stocks & forex</div><span class="lib-badge">free tier</span></div>
+    <div class="lib-card"><div class="lib-icon"><i class="fas fa-robot"></i></div><div class="lib-name">Alpaca-py</div><div class="lib-desc">Streaming data + investing apps</div><span class="lib-badge">free</span></div>
+    <div class="lib-card"><div class="lib-icon"><i class="fas fa-cloud-sun"></i></div><div class="lib-name">marketstack</div><div class="lib-desc">Intraday + 30+ years history</div><span class="lib-badge">free tier</span></div>
+    <div class="lib-card"><div class="lib-icon"><i class="fas fa-bolt"></i></div><div class="lib-name">Tiingo</div><div class="lib-desc">EOD stock price, redundancy</div><span class="lib-badge">free tier</span></div>
+    <div class="lib-card"><div class="lib-icon"><i class="fas fa-globe"></i></div><div class="lib-name">Open Exchange Rates</div><div class="lib-desc">170+ currencies, real‑time</div><span class="lib-badge">free tier</span></div>
+    <div class="lib-card"><div class="lib-icon"><i class="fas fa-coins"></i></div><div class="lib-name">CoinGecko API</div><div class="lib-desc">Crypto prices, volume, metadata</div><span class="lib-badge">free</span></div>
+    <div class="lib-card"><div class="lib-icon"><i class="fas fa-building"></i></div><div class="lib-name">IEX Cloud</div><div class="lib-desc">Stocks, ETFs, forex, streaming</div><span class="lib-badge">free tier</span></div>
+  </div>
+
+  <!-- WORKSHOP BANNER with GOOGLE SHARE LINK -->
+  <div class="workshop-banner">
+    <div class="workshop-left">
+      <i class="fas fa-fire"></i>
+      <div class="workshop-text">
+        <h3>🔥 Free Workshop: Algorithmic Trading with Python</h3>
+        <p><span class="highlight">August 13th</span> · 630+ already registered</p>
+      </div>
+    </div>
+    <div class="btn-group">
+      <span class="registered-badge"><i class="fas fa-user-check"></i> 630+</span>
+      <a href="#" class="btn btn-primary"><i class="fas fa-arrow-right"></i> Register</a>
+      <a href="https://share.google/yOYy9EbRTQCLkkFcO" target="_blank" class="btn btn-google"><i class="fab fa-google-drive"></i> Download Resources</a>
+    </div>
+  </div>
+
+  <!-- PS -->
+  <div class="ps-note">
+    <strong>📌 P.S.</strong> — It took me 3 years to become confident in algo trading. So I spent 100 hours making a <strong>FREE course</strong> to help you.
+    <span style="display:inline-block; margin-left:12px; background:var(--bg3); padding:2px 14px; border-radius:40px; font-size:0.85rem; color:var(--accent);">2,400+ students</span>
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <span>© 2026 AlgoLab — built for quants</span>
+    <div class="footer-social">
+      <a href="#"><i class="fab fa-twitter"></i></a>
+      <a href="#"><i class="fab fa-github"></i></a>
+      <a href="#"><i class="fab fa-youtube"></i></a>
+      <a href="#"><i class="fab fa-linkedin-in"></i></a>
+    </div>
+  </footer>
+</div>
+
+<!-- ===== JS ===== -->
+<script>
+  (function() {
+    // Theme toggle
+    const toggle = document.getElementById('themeToggle');
+    const html = document.documentElement;
+    const icon = toggle.querySelector('i');
+    const currentTheme = localStorage.getItem('theme') || 'dark';
+    html.setAttribute('data-theme', currentTheme);
+    icon.className = currentTheme === 'light' ? 'fas fa-sun' : 'fas fa-moon';
+    toggle.addEventListener('click', function() {
+      const theme = html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+      html.setAttribute('data-theme', theme);
+      localStorage.setItem('theme', theme);
+      icon.className = theme === 'light' ? 'fas fa-sun' : 'fas fa-moon';
+    });
+
+    // Fake ticker animation
+    const ticker = document.getElementById('ticker');
+    if (ticker) {
+      setInterval(() => {
+        const up = ['▲', '▲', '▼', '▲', '▼'];
+        const val = (Math.random() * 4 - 1).toFixed(2);
+        const arrow = up[Math.floor(Math.random() * up.length)];
+        const spans = ticker.querySelectorAll('.up, .down');
+        if (spans.length) {
+          const target = spans[Math.floor(Math.random() * spans.length)];
+          target.textContent = `${arrow} ${val}%`;
+          target.className = arrow === '▲' ? 'up' : 'down';
+        }
+      }, 3000);
+    }
+  })();
+</script>
+</body>
+</html>
