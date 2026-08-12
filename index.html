@@ -145,22 +145,34 @@
     .section-title { font-size: 2.2rem; font-weight: 700; margin: 40px 0 8px; }
     .section-sub { color: var(--text2); font-size: 1.1rem; margin-bottom: 32px; }
 
-    /* ----- LIBRARY GRID ----- */
+    /* ----- LIBRARY GRID (clickable cards) ----- */
     .lib-grid {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
       gap: 24px;
       margin-bottom: 48px;
     }
+    .lib-card-link {
+      text-decoration: none;
+      color: inherit;
+      display: block;
+      transition: transform 0.25s ease;
+      border-radius: 16px;
+    }
+    .lib-card-link:hover { transform: translateY(-6px); }
+    .lib-card-link:hover .lib-card { border-color: var(--accent); box-shadow: 0 12px 32px var(--shadow); }
+    .lib-card-link:hover .lib-card::after { opacity: 1; }
+
     .lib-card {
       background: var(--bg2);
       border-radius: 16px;
       padding: 22px 20px;
       border: 1px solid var(--border);
       transition: all 0.25s ease;
-      cursor: default;
+      cursor: pointer;
       position: relative;
       overflow: hidden;
+      height: 100%;
     }
     .lib-card::after {
       content: '';
@@ -170,8 +182,6 @@
       opacity: 0;
       transition: opacity 0.3s;
     }
-    .lib-card:hover { transform: translateY(-6px); border-color: var(--accent); box-shadow: 0 12px 32px var(--shadow); }
-    .lib-card:hover::after { opacity: 1; }
     .lib-icon { font-size: 1.8rem; margin-bottom: 8px; color: var(--accent); }
     .lib-name { font-weight: 700; font-size: 1.15rem; }
     .lib-desc { font-size: 0.9rem; color: var(--text2); line-height: 1.5; }
@@ -376,20 +386,44 @@
   <h2 class="section-title">📦 The Essential 12 Libraries</h2>
   <p class="section-sub">Free, reliable, and production‑ready data sources for quant strategies.</p>
 
-  <!-- LIBRARY GRID -->
+  <!-- LIBRARY GRID — ALL CARDS ARE NOW CLICKABLE LINKS -->
   <div class="lib-grid">
-    <div class="lib-card"><div class="lib-icon"><i class="fab fa-python"></i></div><div class="lib-name">yfinance</div><div class="lib-desc">Stocks, intraday, FX, crypto, options</div><span class="lib-badge">free</span></div>
-    <div class="lib-card"><div class="lib-icon"><i class="fas fa-database"></i></div><div class="lib-name">pandas-datareader</div><div class="lib-desc">Stocks, FX, Fama‑French factors</div><span class="lib-badge">free</span></div>
-    <div class="lib-card"><div class="lib-icon"><i class="fas fa-exchange-alt"></i></div><div class="lib-name">IBApi</div><div class="lib-desc">Official Interactive Brokers API</div><span class="lib-badge">free</span></div>
-    <div class="lib-card"><div class="lib-icon"><i class="fas fa-chart-line"></i></div><div class="lib-name">Alpha Vantage</div><div class="lib-desc">Real‑time + indicators, JSON/CSV</div><span class="lib-badge">free tier</span></div>
-    <div class="lib-card"><div class="lib-icon"><i class="fas fa-link"></i></div><div class="lib-name">Nasdaq Data Link</div><div class="lib-desc">Millions of financial datasets</div><span class="lib-badge">free tier</span></div>
-    <div class="lib-card"><div class="lib-icon"><i class="fas fa-wave-square"></i></div><div class="lib-name">Twelve Data</div><div class="lib-desc">100K+ symbols, stocks & forex</div><span class="lib-badge">free tier</span></div>
-    <div class="lib-card"><div class="lib-icon"><i class="fas fa-robot"></i></div><div class="lib-name">Alpaca-py</div><div class="lib-desc">Streaming data + investing apps</div><span class="lib-badge">free</span></div>
-    <div class="lib-card"><div class="lib-icon"><i class="fas fa-cloud-sun"></i></div><div class="lib-name">marketstack</div><div class="lib-desc">Intraday + 30+ years history</div><span class="lib-badge">free tier</span></div>
-    <div class="lib-card"><div class="lib-icon"><i class="fas fa-bolt"></i></div><div class="lib-name">Tiingo</div><div class="lib-desc">EOD stock price, redundancy</div><span class="lib-badge">free tier</span></div>
-    <div class="lib-card"><div class="lib-icon"><i class="fas fa-globe"></i></div><div class="lib-name">Open Exchange Rates</div><div class="lib-desc">170+ currencies, real‑time</div><span class="lib-badge">free tier</span></div>
-    <div class="lib-card"><div class="lib-icon"><i class="fas fa-coins"></i></div><div class="lib-name">CoinGecko API</div><div class="lib-desc">Crypto prices, volume, metadata</div><span class="lib-badge">free</span></div>
-    <div class="lib-card"><div class="lib-icon"><i class="fas fa-building"></i></div><div class="lib-name">IEX Cloud</div><div class="lib-desc">Stocks, ETFs, forex, streaming</div><span class="lib-badge">free tier</span></div>
+    <a href="https://github.com/ranaroussi/yfinance" target="_blank" class="lib-card-link" aria-label="yfinance">
+      <div class="lib-card"><div class="lib-icon"><i class="fab fa-python"></i></div><div class="lib-name">yfinance</div><div class="lib-desc">Stocks, intraday, FX, crypto, options</div><span class="lib-badge">free</span></div>
+    </a>
+    <a href="https://github.com/pydata/pandas-datareader" target="_blank" class="lib-card-link" aria-label="pandas-datareader">
+      <div class="lib-card"><div class="lib-icon"><i class="fas fa-database"></i></div><div class="lib-name">pandas-datareader</div><div class="lib-desc">Stocks, FX, Fama‑French factors</div><span class="lib-badge">free</span></div>
+    </a>
+    <a href="https://github.com/erdewit/ib_insync" target="_blank" class="lib-card-link" aria-label="IBApi">
+      <div class="lib-card"><div class="lib-icon"><i class="fas fa-exchange-alt"></i></div><div class="lib-name">IBApi</div><div class="lib-desc">Official Interactive Brokers API</div><span class="lib-badge">free</span></div>
+    </a>
+    <a href="https://www.alphavantage.co/" target="_blank" class="lib-card-link" aria-label="Alpha Vantage">
+      <div class="lib-card"><div class="lib-icon"><i class="fas fa-chart-line"></i></div><div class="lib-name">Alpha Vantage</div><div class="lib-desc">Real‑time + indicators, JSON/CSV</div><span class="lib-badge">free tier</span></div>
+    </a>
+    <a href="https://github.com/Nasdaq/data-link-python" target="_blank" class="lib-card-link" aria-label="Nasdaq Data Link">
+      <div class="lib-card"><div class="lib-icon"><i class="fas fa-link"></i></div><div class="lib-name">Nasdaq Data Link</div><div class="lib-desc">Millions of financial datasets</div><span class="lib-badge">free tier</span></div>
+    </a>
+    <a href="https://twelvedata.com/" target="_blank" class="lib-card-link" aria-label="Twelve Data">
+      <div class="lib-card"><div class="lib-icon"><i class="fas fa-wave-square"></i></div><div class="lib-name">Twelve Data</div><div class="lib-desc">100K+ symbols, stocks & forex</div><span class="lib-badge">free tier</span></div>
+    </a>
+    <a href="https://github.com/alpacahq/alpaca-py" target="_blank" class="lib-card-link" aria-label="Alpaca-py">
+      <div class="lib-card"><div class="lib-icon"><i class="fas fa-robot"></i></div><div class="lib-name">Alpaca-py</div><div class="lib-desc">Streaming data + investing apps</div><span class="lib-badge">free</span></div>
+    </a>
+    <a href="https://marketstack.com/" target="_blank" class="lib-card-link" aria-label="marketstack">
+      <div class="lib-card"><div class="lib-icon"><i class="fas fa-cloud-sun"></i></div><div class="lib-name">marketstack</div><div class="lib-desc">Intraday + 30+ years history</div><span class="lib-badge">free tier</span></div>
+    </a>
+    <a href="https://github.com/hydrosquall/tiingo-python" target="_blank" class="lib-card-link" aria-label="Tiingo">
+      <div class="lib-card"><div class="lib-icon"><i class="fas fa-bolt"></i></div><div class="lib-name">Tiingo</div><div class="lib-desc">EOD stock price, redundancy</div><span class="lib-badge">free tier</span></div>
+    </a>
+    <a href="https://openexchangerates.org/" target="_blank" class="lib-card-link" aria-label="Open Exchange Rates">
+      <div class="lib-card"><div class="lib-icon"><i class="fas fa-globe"></i></div><div class="lib-name">Open Exchange Rates</div><div class="lib-desc">170+ currencies, real‑time</div><span class="lib-badge">free tier</span></div>
+    </a>
+    <a href="https://www.coingecko.com/en/api" target="_blank" class="lib-card-link" aria-label="CoinGecko API">
+      <div class="lib-card"><div class="lib-icon"><i class="fas fa-coins"></i></div><div class="lib-name">CoinGecko API</div><div class="lib-desc">Crypto prices, volume, metadata</div><span class="lib-badge">free</span></div>
+    </a>
+    <a href="https://iexcloud.io/" target="_blank" class="lib-card-link" aria-label="IEX Cloud">
+      <div class="lib-card"><div class="lib-icon"><i class="fas fa-building"></i></div><div class="lib-name">IEX Cloud</div><div class="lib-desc">Stocks, ETFs, forex, streaming</div><span class="lib-badge">free tier</span></div>
+    </a>
   </div>
 
   <!-- WORKSHOP BANNER -->
@@ -403,7 +437,7 @@
     </div>
     <div class="btn-group">
       <span class="registered-badge"><i class="fas fa-user-check"></i> 630+</span>
-      <!-- ✅ FIXED: Replace YOUR_ACTUAL_GOOGLE_DRIVE_LINK with your real share URL -->
+      <!-- ⚠️ Replace YOUR_ACTUAL_GOOGLE_DRIVE_LINK with your real share URL -->
       <a href="YOUR_ACTUAL_GOOGLE_DRIVE_LINK" target="_blank" class="btn btn-google" id="googleBtn">
         <i class="fab fa-google-drive"></i> Download Resources
       </a>
@@ -472,8 +506,13 @@
 
     // --- Google Drive button ---
     document.getElementById('googleBtn').addEventListener('click', function(e) {
-      showToast('📁 Opening Google Drive resources...', 'fab fa-google-drive');
-      // The link opens in a new tab due to target="_blank"
+      // Only show toast if the link is not a placeholder
+      if (this.href.includes('YOUR_ACTUAL_GOOGLE_DRIVE_LINK')) {
+        e.preventDefault();
+        showToast('⚠️ Please set your Google Drive link in the HTML.', 'fas fa-exclamation-triangle');
+      } else {
+        showToast('📁 Opening Google Drive resources...', 'fab fa-google-drive');
+      }
     });
 
     // --- Fake ticker animation ---
@@ -492,7 +531,7 @@
       }, 3000);
     }
 
-    console.log('🚀 AlgoLab — all buttons working.');
+    console.log('🚀 AlgoLab — all library cards are clickable links!');
   })();
 </script>
 
