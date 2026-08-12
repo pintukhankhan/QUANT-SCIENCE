@@ -92,7 +92,7 @@
       color: var(--text2);
       align-items: center;
     }
-    .nav-links a { color: inherit; text-decoration: none; transition: color 0.2s; }
+    .nav-links a { color: inherit; text-decoration: none; transition: color 0.2s; cursor: pointer; }
     .nav-links a:hover { color: var(--accent); }
     .theme-toggle {
       background: var(--bg3);
@@ -213,6 +213,7 @@
     .workshop-text p { color: var(--text2); font-size: 0.95rem; }
     .workshop-text .highlight { color: var(--accent); font-weight: 600; }
     .btn-group { display: flex; gap: 12px; flex-wrap: wrap; align-items: center; }
+
     .btn {
       padding: 12px 28px;
       border-radius: 60px;
@@ -225,7 +226,19 @@
       align-items: center;
       gap: 8px;
       transition: all 0.2s;
+      position: relative;
+      overflow: hidden;
     }
+    .btn::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: rgba(255,255,255,0.15);
+      transform: scale(0);
+      border-radius: 60px;
+      transition: transform 0.3s;
+    }
+    .btn:active::after { transform: scale(1); }
     .btn-primary {
       background: var(--accent);
       color: #0b0e14;
@@ -275,6 +288,108 @@
     .footer-social a { color: var(--text3); margin-left: 20px; font-size: 1.2rem; transition: color 0.2s; }
     .footer-social a:hover { color: var(--accent); }
 
+    /* ===== MODAL (Register) ===== */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.7);
+      backdrop-filter: blur(6px);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+      padding: 20px;
+    }
+    .modal-overlay.active { display: flex; }
+    .modal {
+      background: var(--bg2);
+      border-radius: 28px;
+      max-width: 440px;
+      width: 100%;
+      padding: 40px 36px;
+      border: 1px solid var(--border);
+      box-shadow: 0 30px 60px rgba(0,0,0,0.8);
+      animation: slideUp 0.3s ease;
+    }
+    @keyframes slideUp {
+      from { opacity: 0; transform: translateY(30px) scale(0.95); }
+      to { opacity: 1; transform: translateY(0) scale(1); }
+    }
+    .modal h2 { font-size: 1.6rem; margin-bottom: 8px; }
+    .modal p { color: var(--text2); font-size: 0.95rem; margin-bottom: 24px; }
+    .modal .form-group { margin-bottom: 16px; }
+    .modal .form-group label { display: block; font-weight: 600; font-size: 0.85rem; margin-bottom: 4px; color: var(--text2); }
+    .modal .form-group input {
+      width: 100%;
+      padding: 12px 16px;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      background: var(--bg);
+      color: var(--text);
+      font-size: 1rem;
+      transition: border 0.2s;
+    }
+    .modal .form-group input:focus { outline: none; border-color: var(--accent); }
+    .modal .btn-submit {
+      width: 100%;
+      padding: 14px;
+      background: var(--accent);
+      color: #0b0e14;
+      font-weight: 700;
+      border: none;
+      border-radius: 60px;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: 0.2s;
+      margin-top: 8px;
+    }
+    .modal .btn-submit:hover { background: #7af0c0; }
+    .modal .btn-close {
+      background: transparent;
+      border: none;
+      color: var(--text3);
+      font-size: 1.4rem;
+      cursor: pointer;
+      float: right;
+      transition: 0.2s;
+    }
+    .modal .btn-close:hover { color: var(--text); transform: rotate(90deg); }
+    .modal .success-msg {
+      display: none;
+      text-align: center;
+      padding: 20px 0;
+    }
+    .modal .success-msg i { font-size: 3rem; color: var(--accent); margin-bottom: 12px; }
+    .modal .success-msg h3 { color: var(--accent); }
+
+    /* ===== TOAST ===== */
+    .toast {
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      padding: 14px 24px;
+      border-radius: 16px;
+      box-shadow: 0 10px 30px var(--shadow);
+      color: var(--text);
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      transform: translateY(80px);
+      opacity: 0;
+      transition: all 0.4s ease;
+      z-index: 2000;
+      pointer-events: none;
+    }
+    .toast.show {
+      transform: translateY(0);
+      opacity: 1;
+      pointer-events: auto;
+    }
+    .toast i { font-size: 1.2rem; color: var(--accent); }
+
     /* ----- RESPONSIVE ----- */
     @media (max-width: 768px) {
       .navbar { flex-direction: column; align-items: start; gap: 12px; }
@@ -285,6 +400,7 @@
       .workshop-left { flex-direction: column; align-items: flex-start; }
       .btn-group { align-self: flex-start; }
       .ticker { font-size: 0.75rem; gap: 12px; padding: 6px 16px; }
+      .modal { padding: 28px 20px; }
     }
     @media (max-width: 480px) {
       body { padding: 0 12px; }
@@ -309,9 +425,9 @@
   <nav class="navbar">
     <div class="logo">ALGOLAB <span>| algo trading</span></div>
     <div class="nav-links">
-      <a href="#">Docs</a>
-      <a href="#">Community</a>
-      <a href="#" class="btn btn-primary" style="padding:6px 18px; font-size:0.85rem;"><i class="fas fa-graduation-cap"></i> Courses</a>
+      <a class="nav-action" data-toast="📚 Docs coming soon — we're writing the best tutorials for you.">Docs</a>
+      <a class="nav-action" data-toast="💬 Join our Discord community — link sent to your inbox!">Community</a>
+      <a class="nav-action" data-toast="🎓 Courses: AlgoLab Academy launches in September. Stay tuned!" class="btn btn-primary" style="padding:6px 18px; font-size:0.85rem;"><i class="fas fa-graduation-cap"></i> Courses</a>
       <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme"><i class="fas fa-moon"></i></button>
     </div>
   </nav>
@@ -356,7 +472,7 @@
     <div class="lib-card"><div class="lib-icon"><i class="fas fa-building"></i></div><div class="lib-name">IEX Cloud</div><div class="lib-desc">Stocks, ETFs, forex, streaming</div><span class="lib-badge">free tier</span></div>
   </div>
 
-  <!-- WORKSHOP BANNER with GOOGLE SHARE LINK -->
+  <!-- WORKSHOP BANNER -->
   <div class="workshop-banner">
     <div class="workshop-left">
       <i class="fas fa-fire"></i>
@@ -367,8 +483,8 @@
     </div>
     <div class="btn-group">
       <span class="registered-badge"><i class="fas fa-user-check"></i> 630+</span>
-      <a href="#" class="btn btn-primary"><i class="fas fa-arrow-right"></i> Register</a>
-      <a href="https://share.google/yOYy9EbRTQCLkkFcO" target="_blank" class="btn btn-google"><i class="fab fa-google-drive"></i> Download Resources</a>
+      <button class="btn btn-primary" id="registerBtn"><i class="fas fa-arrow-right"></i> Register</button>
+      <a href="https://share.google/yOYy9EbRTQCLkkFcO" target="_blank" class="btn btn-google" id="googleBtn"><i class="fab fa-google-drive"></i> Download Resources</a>
     </div>
   </div>
 
@@ -390,10 +506,40 @@
   </footer>
 </div>
 
+<!-- ===== MODAL (Register) ===== -->
+<div class="modal-overlay" id="registerModal">
+  <div class="modal">
+    <button class="btn-close" id="modalClose">&times;</button>
+    <h2>🚀 Register for the Workshop</h2>
+    <p>August 13th · Free · Live on Zoom</p>
+
+    <div id="formContainer">
+      <div class="form-group">
+        <label>Full Name</label>
+        <input type="text" id="fullName" placeholder="e.g. Jane Doe" />
+      </div>
+      <div class="form-group">
+        <label>Email Address</label>
+        <input type="email" id="email" placeholder="jane@example.com" />
+      </div>
+      <button class="btn-submit" id="submitRegister">Secure my spot →</button>
+    </div>
+
+    <div class="success-msg" id="successMsg">
+      <i class="fas fa-check-circle"></i>
+      <h3>You're registered! 🎉</h3>
+      <p style="color: var(--text2);">We'll send the Zoom link to your email.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ===== TOAST ===== -->
+<div class="toast" id="toast"><i class="fas fa-info-circle"></i> <span id="toastMsg">Toast message</span></div>
+
 <!-- ===== JS ===== -->
 <script>
   (function() {
-    // Theme toggle
+    // --- Theme toggle ---
     const toggle = document.getElementById('themeToggle');
     const html = document.documentElement;
     const icon = toggle.querySelector('i');
@@ -407,7 +553,80 @@
       icon.className = theme === 'light' ? 'fas fa-sun' : 'fas fa-moon';
     });
 
-    // Fake ticker animation
+    // --- Toast system ---
+    const toast = document.getElementById('toast');
+    const toastMsg = document.getElementById('toastMsg');
+    let toastTimeout;
+
+    function showToast(message, icon = 'fas fa-info-circle') {
+      toast.querySelector('i').className = icon;
+      toastMsg.textContent = message;
+      toast.classList.add('show');
+      clearTimeout(toastTimeout);
+      toastTimeout = setTimeout(() => toast.classList.remove('show'), 3500);
+    }
+
+    // --- Nav actions (Docs, Community, Courses) ---
+    document.querySelectorAll('.nav-action').forEach(el => {
+      el.addEventListener('click', function(e) {
+        e.preventDefault();
+        const msg = this.getAttribute('data-toast');
+        if (msg) showToast(msg);
+      });
+    });
+
+    // --- Register Modal ---
+    const modal = document.getElementById('registerModal');
+    const registerBtn = document.getElementById('registerBtn');
+    const closeModal = document.getElementById('modalClose');
+    const formContainer = document.getElementById('formContainer');
+    const successMsg = document.getElementById('successMsg');
+    const submitBtn = document.getElementById('submitRegister');
+
+    function openModal() {
+      modal.classList.add('active');
+      formContainer.style.display = 'block';
+      successMsg.style.display = 'none';
+      document.getElementById('fullName').value = '';
+      document.getElementById('email').value = '';
+    }
+
+    registerBtn.addEventListener('click', openModal);
+    closeModal.addEventListener('click', () => modal.classList.remove('active'));
+    modal.addEventListener('click', function(e) {
+      if (e.target === this) modal.classList.remove('active');
+    });
+
+    submitBtn.addEventListener('click', function() {
+      const name = document.getElementById('fullName').value.trim();
+      const email = document.getElementById('email').value.trim();
+      if (!name || !email) {
+        showToast('⚠️ Please fill in both fields.', 'fas fa-exclamation-triangle');
+        return;
+      }
+      if (!email.includes('@')) {
+        showToast('⚠️ Please enter a valid email address.', 'fas fa-exclamation-triangle');
+        return;
+      }
+      // Success
+      formContainer.style.display = 'none';
+      successMsg.style.display = 'block';
+      showToast('🎉 You\'re registered for the workshop!', 'fas fa-check-circle');
+      // Auto-close modal after 3s
+      setTimeout(() => {
+        modal.classList.remove('active');
+        formContainer.style.display = 'block';
+        successMsg.style.display = 'none';
+      }, 3000);
+    });
+
+    // --- Google Drive button (toast confirmation) ---
+    document.getElementById('googleBtn').addEventListener('click', function(e) {
+      showToast('📁 Opening Google Drive resources...', 'fab fa-google-drive');
+      // the link opens in new tab due to target="_blank"
+    });
+
+    // --- Fake ticker animation ---
     const ticker = document.getElementById('ticker');
     if (ticker) {
       setInterval(() => {
@@ -422,6 +641,8 @@
         }
       }, 3000);
     }
+
+    console.log('🚀 AlgoLab — all buttons are interactive!');
   })();
 </script>
 </body>
